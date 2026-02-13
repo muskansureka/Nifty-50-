@@ -1,0 +1,29 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 10px;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 15px;
+}
+
+.stat-card h5 {
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.stat-card .value {
+    font-size: 1.4rem;
+    font-weight: bold;
+}

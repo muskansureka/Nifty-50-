@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Results{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+
+        <h3 class="mb-4">Prediction Results</h3>
+
+        {% if predictions|length == 1 %}
+        <!-- single date: show as cards -->
+        <div class="row mb-4">
+            {% set pred = predictions[0] %}
+            <div class="col-6 col-md-3 mb-3">
+                <div class="card stat-card shadow-sm">
+                    <h5>Open</h5>
+                    <span class="value text-primary">{{ "%.2f"|format(pred.Open) }}</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+                <div class="card stat-card shadow-sm">
+                    <h5>High</h5>
+                    <span class="value text-success">{{ "%.2f"|format(pred.High) }}</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+                <div class="card stat-card shadow-sm">
+                    <h5>Low</h5>
+                    <span class="value text-danger">{{ "%.2f"|format(pred.Low) }}</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+                <div class="card stat-card shadow-sm">
+                    <h5>Close</h5>
+                    <span class="value text-info">{{ "%.2f"|format(pred.Close) }}</span>
+                </div>
+            </div>
+        </div>
+        <p class="text-muted text-center mb-4">Predicted values for <strong>{{ pred.Date }}</strong></p>
+
+        {% else %}
+        <!-- multiple dates: show chart + table -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="predictionChart"></canvas>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- results table -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Detailed Values</h5>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="downloadCSV('nifty50_predictions.csv')">Download CSV</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="results-table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Open</th>
+                                <th>High</th>
+                                <th>Low</th>
+                                <th>Close</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pred in predictions %}
+                            <tr>
+                                <td>{{ pred.Date }}</td>
+                                <td>{{ "%.2f"|format(pred.Open) }}</td>
+                                <td>{{ "%.2f"|format(pred.High) }}</td>
+                                <td>{{ "%.2f"|format(pred.Low) }}</td>
+                                <td>{{ "%.2f"|format(pred.Close) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <a href="/" class="btn btn-primary">Back to Home</a>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if predictions|length > 1 %}
+<script>
+    var preds = {{ predictions | tojson }};
+    var labels = preds.map(function(p) { return p.Date; });
+
+    renderPredictionChart("predictionChart", labels, [
+        {
+            label: "Open",
+            data: preds.map(function(p) { return Math.round(p.Open * 100) / 100; }),
+            borderColor: "#0d6efd",
+            fill: false,
+            tension: 0.3,
+            pointRadius: 3
+        },
+        {
+            label: "High",
+            data: preds.map(function(p) { return Math.round(p.High * 100) / 100; }),
+            borderColor: "#198754",
+            fill: false,
+            tension: 0.3,
+            pointRadius: 3
+        },
+        {
+            label: "Low",
+            data: preds.map(function(p) { return Math.round(p.Low * 100) / 100; }),
+            borderColor: "#dc3545",
+            fill: false,
+            tension: 0.3,
+            pointRadius: 3
+        },
+        {
+            label: "Close",
+            data: preds.map(function(p) { return Math.round(p.Close * 100) / 100; }),
+            borderColor: "#0dcaf0",
+            fill: false,
+            tension: 0.3,
+            pointRadius: 3
+        }
+    ]);
+</script>
+{% endif %}
+{% endblock %}

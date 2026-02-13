@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}NIFTY 50 Predictor - Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title mb-3">Predict NIFTY 50 Prices</h3>
+                <p class="text-muted">Enter a date or date range to get predicted Open, High, Low, and Close values.</p>
+
+                <form action="/predict" method="POST" id="predict-form">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Prediction Type</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="prediction_type" id="type-single" value="single" checked>
+                            <label class="form-check-label" for="type-single">Single Date</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="prediction_type" id="type-range" value="range">
+                            <label class="form-check-label" for="type-range">Date Range</label>
+                        </div>
+                    </div>
+
+                    <div id="single-field" class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="date" name="date">
+                    </div>
+
+                    <div id="range-fields" class="mb-3" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label for="start_date" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="start_date" name="start_date">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="end_date" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="end_date" name="end_date">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Predict</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

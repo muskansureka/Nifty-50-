@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <h3 class="mb-4">About This Project</h3>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h5>NIFTY 50 Stock Price Prediction</h5>
+                <p>
+                    This project uses machine learning to predict future NIFTY 50 index values.
+                    We trained our models on 10 years of historical data (2016-2026) using
+                    Facebook's Prophet library, which is a time series forecasting tool that
+                    handles trends, seasonality, and holidays.
+                </p>
+
+                <h5 class="mt-4">How It Works</h5>
+                <ul>
+                    <li>Historical NIFTY 50 data is preprocessed and enriched with technical indicators like moving averages (5, 20, 50 day) and volatility.</li>
+                    <li>Four separate Prophet models are trained to predict Open, High, Low, and Close prices.</li>
+                    <li>The models capture weekly and yearly seasonality patterns along with the overall market trend.</li>
+                    <li>Users can input any future date and get predicted OHLC values.</li>
+                </ul>
+
+                <h5 class="mt-4">Model Performance</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Target</th>
+                                <th>MAE (points)</th>
+                                <th>MAPE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Open</td><td>133.42</td><td>0.52%</td></tr>
+                            <tr><td>High</td><td>111.85</td><td>0.43%</td></tr>
+                            <tr><td>Low</td><td>141.05</td><td>0.55%</td></tr>
+                            <tr><td>Close</td><td>139.23</td><td>0.54%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h5 class="mt-4">Technologies Used</h5>
+                <ul>
+                    <li><strong>Python</strong> &mdash; Core programming language</li>
+                    <li><strong>Facebook Prophet</strong> &mdash; Time series forecasting model</li>
+                    <li><strong>Flask</strong> &mdash; Web framework for the UI</li>
+                    <li><strong>Chart.js</strong> &mdash; Data visualization</li>
+                    <li><strong>Bootstrap 5</strong> &mdash; Frontend styling</li>
+                    <li><strong>Pandas &amp; NumPy</strong> &mdash; Data processing</li>
+                    <li><strong>scikit-learn</strong> &mdash; Model evaluation metrics</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="alert alert-warning">
+            <strong>Disclaimer:</strong> This project is for educational purposes only.
+            The predictions are based on historical patterns and should not be used for
+            actual investment decisions. Stock markets are influenced by many unpredictable
+            factors that no model can fully capture.
+        </div>
+
+    </div>
+</div>
+{% endblock %}
